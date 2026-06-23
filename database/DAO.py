@@ -94,7 +94,7 @@ class DAO():
         cnx = DBConnect.get_connection()
         cursor = cnx.cursor(dictionary=True)
         result = []
-        query = """select *
+        query = """select distinct *
                     from sighting
                     where shape = %s and year(`datetime`) = %s"""
         cursor.execute(query, (s, y))

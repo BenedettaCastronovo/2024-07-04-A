@@ -40,25 +40,18 @@ class Model:
     def get(self):
         return len(self.g.nodes()), len(self.g.edges()) #qua faccio cosi
 
-
-
     def cerca(self):
         self.best = {}
         self.punti = 0
         for n in self.g.nodes():
             parziale = [n]
-            for u in self.g.successors(parziale[-1]):
-                if self.is_valid(parziale, u):
-                    parziale.append(u)
-                    self.ric(parziale)
-            parziale.pop()
+            self.ric(parziale)
         return self.best, self.punti
 
     def ric(self, parziale):
         if self.costo(parziale) > self.punti:
             self.best = copy.deepcopy(parziale)
             self.punti = self.costo(parziale)
-            return
 
         for n in self.g.successors(parziale[-1]):
             if self.is_valid(parziale, n):
@@ -69,8 +62,8 @@ class Model:
     def is_valid(self, parziale, v):
         if parziale[-1].duration < v.duration:
             if len(parziale) > 3:
-                somma = sum(1 for i in range(1, len(parziale)) if parziale[i-1].datetime.month == parziale[i].datetime.month)
-                if somma > 3:
+                somma = sum(1 for n in parziale if n.datetime.month == v.datetime.month)
+                if somma >= 3:
                     return False
                 else:
                     return True
@@ -86,4 +79,6 @@ class Model:
             costo+= 100
 
         return costo
+
+
 

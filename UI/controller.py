@@ -22,7 +22,8 @@ class Controller:
         self._view.update_page()
 
     def choiceY(self, e):
-        self._y = e.control.key
+        #self._y = e.control.key
+        self._y = self._view.ddyear.value
         if self._y is not None:
             self.fillS(self._y)
 
